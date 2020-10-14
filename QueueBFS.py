@@ -10,12 +10,29 @@ def performQueueBFS():
     """
     This function performs BFS search using a queue
     """
+
+    """
+    Reading and asigning parameters
+    """
+    print("Provide the name of the first person")
+    originNode = input()
+    print("The origin node is: ", originNode)
+    print("Provide the name of the second person")
+    goalNode = input()
+
     #create queue
     queue = deque([]) 
     #since it is a graph, we create visited list
     visited = [] 
     #create root node
-    initialState = State()
+    initialState = State(originNode)
+    initialState.setOrigin(originNode)
+    #initialState.setGoal(goalNode)
+
+    print("El origen es: ", initialState.initialNode)
+    print("La meta es: ", goalNode)
+    print("El nombre es: ", initialState.name)
+
     root = Node(initialState)
     #add to queue and visited list
     queue.append(root)    
@@ -29,7 +46,7 @@ def performQueueBFS():
         print (("-- dequeue --"), currentNode.state.name)
         
         #check if this is goal state
-        if currentNode.state.checkGoalState():
+        if currentNode.state.checkGoalState(goalNode):
             print ("reached goal state")
             #print the path
             print ("----------------------")
