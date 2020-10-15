@@ -2,8 +2,6 @@
 @author: Devangini Patel
 '''
 
-from GraphData import *
-
 class State:
     '''
     This class retrieves state information for social connection feature
@@ -12,18 +10,17 @@ class State:
     initialNode = ""
     
     def __init__(self,name ):
-            self.name = name
-        
+        self.name = name
     
     def setOrigin(self, origin):
         self.initialNode = origin
 
-    def successorFunction(self):
+    def successorFunction(self, graph):
         """
         This is the successor function. It finds all the persons connected to the
         current person
         """
-        return connections[self.name]
+        return graph[self.name]
         
     #This method receive the goal entered by the user    
     def checkGoalState(self, goal):

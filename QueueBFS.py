@@ -1,25 +1,39 @@
 '''
 @author: Devangini Patel
+Modified and adapted by: Victor Chaparro
 '''
 
 from Node import Node
 from State import State
 from collections import deque
+from GraphData import *
+from Treeplot import TreePlot
 
-def performQueueBFS():
+
+def main():
+        
+    #Reading and asigning initial parameters
+    print("Provide the name of the student to connect")
+    originNode = input()
+    
+    graph = connections
+    #calling BFS Function passing 3 parameters
+    if originNode in graph:
+        print("Provide the name of the target student")
+        goalNode = input()
+        if goalNode in graph:
+            BFS_Victor(graph, originNode, goalNode)
+        else:
+            print("Target student not found in the student list")
+    else:
+        print("Student to connect not found int the student list")
+    
+
+
+def BFS_Victor(graph, originNode, goalNode):
     """
     This function performs BFS search using a queue
     """
-
-    """
-    Reading and asigning parameters
-    """
-    print("Provide the name of the first person")
-    originNode = input()
-    print("The origin node is: ", originNode)
-    print("Provide the name of the second person")
-    goalNode = input()
-
     #create queue
     queue = deque([]) 
     #since it is a graph, we create visited list
@@ -27,11 +41,7 @@ def performQueueBFS():
     #create root node
     initialState = State(originNode)
     initialState.setOrigin(originNode)
-    #initialState.setGoal(goalNode)
-
-    print("El origen es: ", initialState.initialNode)
-    print("La meta es: ", goalNode)
-    print("El nombre es: ", initialState.name)
+ 
 
     root = Node(initialState)
     #add to queue and visited list
@@ -52,9 +62,11 @@ def performQueueBFS():
             print ("----------------------")
             print ("Path")
             currentNode.printPath()
+            #Defining if the goal is reached
+            reachedGoal = True
             break           
         #get the child nodes 
-        childStates = currentNode.state.successorFunction()
+        childStates = currentNode.state.successorFunction(graph)
         for childState in childStates:
             
             childNode = Node(State(childState))
@@ -68,10 +80,18 @@ def performQueueBFS():
                 
                 #add to tree and queue
                 currentNode.addChild(childNode)
-                queue.append(childNode)                        
+                queue.append(childNode)
+            treeplot = TreePlot()
+            treeplot.generateDiagram(root, currentNode) 
+           
+    treeplot = TreePlot()
+    treeplot.generateDiagram(root, currentNode)                     
     #print tree
     print ("----------------------")
     print ("Tree")
     root.printTree()
+    if reachedGoal != True:
+        print ("No connection was found between ", originNode," and", goalNode)
     
-performQueueBFS()
+if __name__ == "__main__":
+    main()

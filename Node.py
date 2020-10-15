@@ -15,7 +15,7 @@ class Node:
         self.depth = 0
         self.children = []
         self.parent = None
-        
+        self.fringe = True
         
     def addChild(self, childNode):
         """
